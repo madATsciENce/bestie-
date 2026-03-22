@@ -205,3 +205,21 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# --- STANDARD PYTHON STUFF ---
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
+.env
+
+# --- YOUR PERSONAL MEMORY VAULT DATA (CRITICAL) ---
+# This stops your private database of letters from uploading
+*.db
+*.sqlite3
+memories.db
+
+# This stops your actual personal photos from uploading
+uploads/
+static/uploads/
