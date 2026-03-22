@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>For My Bestie</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <div class="sticker-fixed sticker-left">
+      <img
+        src="{{ url_for('static', filename='dance.gif') }}"
+        width="150"
+        alt="Dancing Cats"
+      />
+    </div>
+
+    <!--<div class="sticker-fixed sticker-right">
+      <img
+        src="{{ url_for('static', filename='hug.gif') }}"
+        width="180"
+        alt="Hugging Cats"
+      /> -->
+    </div>
+    <div id="intro-container" class="torn-paper">
+      <div class="flower-decoration">🌸</div>
+      <div class="cat-gif">
+        <img
+          src="{{ url_for('static', filename='hug.gif') }}"
+          width="80"
+          style="margin-bottom: -20px"
+        />
+      </div>
+      <h2 id="dialogue-text">I made something for you</h2>
+      <div id="dialogue-buttons">
+        <button class="cute-btn" onclick="nextStep('what')">what?</button>
+      </div>
+    </div>
+
+    <div id="envelope-section" style="display: none">
+      <div class="envelope-container">
+        {% for letter in letters %}
+        <div
+          class="envelope-wrapper"
+          onclick="openLetter('{{ letter.title }}', '{{ letter.message }}')"
+        >
+          <div class="envelope"></div>
+          <div class="envelope-label">
+            open when<br /><strong>{{ letter.title }}</strong>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div
+      id="dashboard-section"
+      style="display: none; margin-top: 40px; margin-bottom: 40px"
+    >
+      <div class="main-header torn-paper">
+        <h1>For My Pearly 💖🧁</h1>
+        <p>a little digital space just for us and all our memories</p>
+      </div>
+
+      <div class="content-row">
+        <div class="tracker-container torn-paper dashboard-card">
+          <h2>We've been besties for...</h2>
+          <div id="time-together"></div>
+
+          <div class="music-player">
+            <p>🎵 our playlist</p>
+            <audio id="bg-music" loop>
+              <source
+                src="{{ url_for('static', filename='song.mp3') }}"
+                type="audio/mpeg"
+              />
+            </audio>
+            <button class="cute-btn" onclick="toggleMusic()" id="music-btn">
+              ▶️ Play
+            </button>
+          </div>
+        </div>
+
+        <div class="dashboard-card torn-paper">
+          <h2>Upcoming Birthdays 🎂</h2>
+          <div style="margin-top: 20px">
+            <h3 style="color: #38bdf8">Cupcake's Birthday</h3>
+            <p
+              id="bestie-bday"
+              style="font-size: 1.8rem; font-weight: bold"
+            ></p>
+          </div>
+          <div style="margin-top: 20px">
+            <h3 style="color: #38bdf8">Susmita's Birthday</h3>
+            <p
+              id="sushmita-bday"
+              style="font-size: 1.8rem; font-weight: bold"
+            ></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-row">
+        <div class="dashboard-card torn-paper" id="admin-corner">
+          <h3>Admin Corner</h3>
+          <form action="/add_photo" method="POST" enctype="multipart/form-data">
+            <label class="cute-upload-btn">
+              <input type="file" name="photo_file" accept="image/*" required />
+              📷 Select Photo Memory
+            </label>
+            <input
+              type="text"
+              name="caption"
+              placeholder="Enter a caption (optional)"
+              style="
+                margin-top: 10px;
+                padding: 5px;
+                border-radius: 5px;
+                border: 1px solid #ccc;
+                width: 80%;
+              "
+            />
+            <button type="submit" class="cute-btn" style="margin-top: 10px">
+              Upload Photo
+            </button>
+          </form>
+        </div>
+
+        <div class="dashboard-card torn-paper" id="memory-photos">
+          <h3>Memory Photos</h3>
+          <div class="photo-grid">
+            {% for photo in photos %}
+            <div class="photo-item">
+              <img src="/uploads/{{ photo.media_url }}" alt="Memory photo" />
+              <p class="photo-caption">{{ photo.caption }}</p>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+      <div class="content-row">
+        <div
+          class="dashboard-card torn-paper"
+          style="width: 100%; max-width: 800px"
+        >
+          <h3>Our Shared Playlist 🎶</h3>
+          <div
+            style="
+              position: relative;
+              padding-bottom: 56.25%;
+              height: 0;
+              overflow: hidden;
+              border-radius: 10px;
+              margin-top: 15px;
+              border: 1px dashed #cbd5e1;
+            "
+          >
+            <iframe
+              style="
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                border: none;
+              "
+              src="https://www.youtube.com/embed/videoseries?list=PL2aBxcV5m8P7R-mE4mVIgZ4kJKyjsGCRL"
+              allow="
+                accelerometer;
+                autoplay;
+                clipboard-write;
+                encrypted-media;
+                gyroscope;
+                picture-in-picture;
+              "
+              allowfullscreen
+            >
+            </iframe>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-row">
+        <div
+          class="dashboard-card torn-paper"
+          style="width: 100%; max-width: 600px"
+        >
+          <h3>Bestie Memory Match 🧠💖</h3>
+          <p style="margin-bottom: 15px">Find all the matching pairs!</p>
+          <div id="game-board" class="memory-board"></div>
+          <button
+            class="cute-btn"
+            onclick="resetGame()"
+            style="margin-top: 20px"
+          >
+            Restart Game
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="overlay" id="overlay" onclick="closeLetter()"></div>
+    <div class="letter-modal torn-paper" id="letterModal">
+      <h2 id="modalTitle"></h2>
+      <p id="modalMessage"></p>
+      <button class="cute-btn" onclick="closeLetter()">Close</button>
+    </div>
+
+    <script>
+      let step = 0;
+      function nextStep(choice) {
+        const textEl = document.getElementById("dialogue-text");
+        const btnsEl = document.getElementById("dialogue-buttons");
+
+        if (step === 0) {
+          textEl.innerHTML = "Will you see it?";
+          btnsEl.innerHTML = `
+                    <button class="cute-btn" onclick="nextStep('yes')">yes</button> 
+                    <button class="cute-btn" onclick="nextStep('no')">no</button>
+                `;
+          step = 1;
+        } else if (step === 1) {
+          if (choice === "no") {
+            textEl.innerHTML = "please say yes!";
+            btnsEl.innerHTML = `<button class="cute-btn" onclick="nextStep('fine')">fine</button>`;
+          } else {
+            textEl.innerHTML = "yay<br>are you ready for the surprise?";
+            btnsEl.innerHTML = `<button class="cute-btn" onclick="showEnvelopes()">yes!!</button>`;
+            step = 2;
+          }
+        } else if (step === 1 && choice === "fine") {
+          textEl.innerHTML = "yay<br>are you ready for the surprise?";
+          btnsEl.innerHTML = `<button class="cute-btn" onclick="showEnvelopes()">yes!!</button>`;
+          step = 2;
+        } else if (step === 2) {
+          showEnvelopes();
+        }
+      }
+
+      function showEnvelopes() {
+        document.getElementById("intro-container").style.display = "none";
+        document.getElementById("envelope-section").style.display = "block";
+        document.getElementById("dashboard-section").style.display = "block";
+        startTracker();
+        startBirthdayCountdowns();
+        initGame();
+      }
+
+      function openLetter(title, message) {
+        document.getElementById("modalTitle").innerText = "Hey bestie,";
+        document.getElementById("modalMessage").innerText = message;
+        document.getElementById("letterModal").style.display = "block";
+        document.getElementById("overlay").style.display = "block";
+      }
+
+      function closeLetter() {
+        document.getElementById("letterModal").style.display = "none";
+        document.getElementById("overlay").style.display = "none";
+      }
+
+      // --- TIMER TRACKER ---
+      function startTracker() {
+        const startDate = new Date("2024-09-29T00:00:00").getTime();
+
+        setInterval(function () {
+          const now = new Date().getTime();
+          const distance = now - startDate;
+
+          const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+          const hours = Math.floor(
+            (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
+          );
+          const minutes = Math.floor(
+            (distance % (1000 * 60 * 60)) / (1000 * 60),
+          );
+          const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+          document.getElementById("time-together").innerHTML =
+            days +
+            " days, " +
+            hours +
+            " hours, <br>" +
+            minutes +
+            " mins, " +
+            seconds +
+            " secs";
+        }, 1000);
+      }
+
+      // --- BIRTHDAY COUNTDOWNS ---
+      function startBirthdayCountdowns() {
+        updateBdayCountdown("bestie-bday", 9, 25);
+        updateBdayCountdown("sushmita-bday", 11, 28);
+
+        setInterval(() => {
+          updateBdayCountdown("bestie-bday", 9, 25);
+          updateBdayCountdown("sushmita-bday", 11, 28);
+        }, 1000);
+      }
+
+      function updateBdayCountdown(elementId, month, day) {
+        const now = new Date();
+        let bday = new Date(now.getFullYear(), month, day);
+
+        if (now.getTime() > bday.getTime() + 1000 * 60 * 60 * 24) {
+          bday.setFullYear(bday.getFullYear() + 1);
+        }
+
+        const distance = bday.getTime() - now.getTime();
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor(
+          (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
+        );
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        document.getElementById(elementId).innerHTML =
+          days + "d " + hours + "h " + minutes + "m " + seconds + "s";
+      }
+
+      // --- MUSIC PLAYER ---
+      let isPlaying = false;
+      function toggleMusic() {
+        const audio = document.getElementById("bg-music");
+        const btn = document.getElementById("music-btn");
+
+        if (isPlaying) {
+          audio.pause();
+          btn.innerHTML = "▶️ Play";
+        } else {
+          audio.play();
+          btn.innerHTML = "⏸️ Pause";
+        }
+        isPlaying = !isPlaying;
+      }
+
+      // --- MEMORY GAME LOGIC ---
+      const emojis = [
+        "🧁",
+        "😏",
+        "💖",
+        "✨",
+        "🙈",
+        "🫣",
+        "🧁",
+        "😏",
+        "💖",
+        "✨",
+        "🙈",
+        "🫣",
+      ];
+      let flippedCards = [];
+      let matchedPairs = 0;
+
+      function initGame() {
+        const board = document.getElementById("game-board");
+        board.innerHTML = "";
+        flippedCards = [];
+        matchedPairs = 0;
+
+        let shuffledEmojis = emojis.sort(() => 0.5 - Math.random());
+
+        shuffledEmojis.forEach((emoji) => {
+          const card = document.createElement("div");
+          card.classList.add("memory-card");
+          card.dataset.emoji = emoji;
+          card.onclick = flipCard;
+          board.appendChild(card);
+        });
+      }
+
+      function flipCard() {
+        if (
+          flippedCards.length < 2 &&
+          !this.classList.contains("flipped") &&
+          !this.classList.contains("matched")
+        ) {
+          this.classList.add("flipped");
+          this.innerHTML = this.dataset.emoji;
+          flippedCards.push(this);
+
+          if (flippedCards.length === 2) {
+            setTimeout(checkMatch, 600);
+          }
+        }
+      }
+
+      function checkMatch() {
+        const [card1, card2] = flippedCards;
+
+        if (card1.dataset.emoji === card2.dataset.emoji) {
+          card1.classList.replace("flipped", "matched");
+          card2.classList.replace("flipped", "matched");
+          matchedPairs++;
+
+          if (matchedPairs === emojis.length / 2) {
+            setTimeout(() => alert("Yay! You found all the matches! 🎉"), 300);
+          }
+        } else {
+          card1.classList.remove("flipped");
+          card2.classList.remove("flipped");
+          card1.innerHTML = "";
+          card2.innerHTML = "";
+        }
+        flippedCards = [];
+      }
+
+      function resetGame() {
+        initGame();
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,270 @@
+/* GLOBAL STYLES */
+body {
+    background-color: #e0f2fe;
+    background-image: 
+      repeating-linear-gradient(transparent, transparent 50px, rgba(186, 230, 253, 0.5) 50px, rgba(186, 230, 253, 0.5) 100px),
+      repeating-linear-gradient(90deg, transparent, transparent 50px, rgba(186, 230, 253, 0.5) 50px, rgba(186, 230, 253, 0.5) 100px);
+    font-family: 'Caveat', cursive;
+    color: #475569;
+    text-align: center;
+    margin: 0;
+    
+    /* 👇 THESE ARE THE FIXED LINES 👇 */
+    min-height: 100vh; /* Lets the page grow as long as it needs to */
+    padding: 50px 0;   /* Adds a little breathing room at the top and bottom */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* Starts content at the top instead of the middle */
+}
+
+#intro-container {
+    margin: auto;
+}
+
+/* TORN PAPER EFFECT */
+.torn-paper {
+    background-color: #fffaf0;
+    width: 80%;
+    max-width: 600px;
+    padding: 50px 30px;
+    position: relative;
+    box-shadow: 0px 10px 25px rgba(0,0,0,0.15);
+    /* Creates a rough, imperfect border to look like torn paper */
+    border-radius: 2px 25px 3px 30px; 
+    border: 1px dashed #cbd5e1;
+}
+
+#dialogue-text {
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+}
+
+/* CUTE BUTTONS */
+.cute-btn {
+    background-color: #f8fafc;
+    border: 2px solid #94a3b8;
+    border-radius: 15px;
+    padding: 5px 20px;
+    font-family: 'Caveat', cursive;
+    font-size: 1.5rem;
+    color: #475569;
+    cursor: pointer;
+    margin: 0 10px;
+    transition: all 0.2s ease;
+}
+
+.cute-btn:hover {
+    background-color: #e2e8f0;
+    transform: scale(1.05);
+}
+
+/* DECORATIONS (Optional emojis to mimic the video stickers) */
+.flower-decoration { position: absolute; top: -15px; right: -15px; font-size: 3rem; }
+.cat-gif { position: absolute; bottom: -20px; left: 20px; font-size: 3rem; }
+
+/* THE ENVELOPES */
+.envelope-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.envelope-wrapper {
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.envelope-wrapper:hover {
+    transform: translateY(-10px);
+}
+
+/* Drawing an envelope using pure CSS */
+.envelope {
+    width: 140px;
+    height: 90px;
+    background-color: #bae6fd; /* Light blue */
+    position: relative;
+    border-radius: 5px;
+    box-shadow: 2px 4px 10px rgba(0,0,0,0.1);
+}
+
+/* The top flap of the envelope */
+.envelope::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    border-left: 70px solid transparent;
+    border-right: 70px solid transparent;
+    border-top: 50px solid #7dd3fc; /* Darker blue */
+    z-index: 2;
+}
+
+.envelope-label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    font-size: 1.2rem;
+    z-index: 3;
+    white-space: nowrap;
+    border-radius: 3px;
+    box-shadow: 1px 2px 5px rgba(0,0,0,0.1);
+}
+
+/* MODAL / OPEN LETTER POPUP */
+.letter-modal {
+    display: none; 
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    font-size: 1.8rem;
+    line-height: 1.4;
+}
+
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.4);
+    z-index: 999;
+}
+/* TIME TRACKER & MUSIC PLAYER */
+.tracker-container {
+    padding: 30px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+#time-together {
+    font-size: 2.2rem;
+    color: #38bdf8; /* Brighter baby blue text */
+    font-weight: bold;
+    margin: 20px 0;
+    line-height: 1.2;
+}
+
+.music-player {
+    margin-top: 25px;
+    padding-top: 15px;
+    border-top: 2px dashed #cbd5e1;
+}
+
+.music-player p {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+/* NEW UPLOAD/DASHBOARD CSS */
+.content-row {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+
+.dashboard-card {
+    flex: 1;
+    min-width: 300px;
+    max-width: 500px;
+    padding: 30px;
+    text-align: center;
+}
+
+#admin-corner form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+}
+
+/* Make the file input itself invisible and style its label as a pretty button */
+.cute-upload-btn input[type="file"] {
+    display: none;
+}
+.cute-upload-btn {
+    background-color: #f8fafc;
+    border: 2px solid #94a3b8;
+    border-radius: 15px;
+    padding: 5px 20px;
+    font-size: 1.5rem;
+    color: #475569;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* PHOTO GRID DISPLAY */
+.photo-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.photo-item {
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.photo-item img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.photo-caption {
+    font-size: 1.2rem;
+    color: #555;
+    margin-top: 8px;
+}
+
+/* --- MINI GAME CSS --- */
+.memory-board {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 columns of cards */
+    gap: 10px;
+    margin: 0 auto;
+}
+
+.memory-card {
+    width: 100%;
+    aspect-ratio: 1; /* Keeps them perfectly square */
+    background-color: #bae6fd; /* Baby blue back of card */
+    border: 2px dashed #7dd3fc;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 1px 2px 5px rgba(0,0,0,0.1);
+}
+
+.memory-card:hover {
+    transform: scale(1.05);
+}
+
+.memory-card.flipped {
+    background-color: #fffaf0; /* Cream color when flipped */
+    border: 2px solid #cbd5e1;
+    cursor: default;
+    transform: scale(1);
+}
+
+.memory-card.matched {
+    background-color: #fbcfe8; /* Soft pink when correctly matched */
+    border-color: #f472b6;
+    cursor: default;
+    transform: scale(1);
+}
