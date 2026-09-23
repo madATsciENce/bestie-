@@ -223,3 +223,5 @@ memories.db
 # This stops your actual personal photos from uploading
 uploads/
 static/uploads/
+
+.env
